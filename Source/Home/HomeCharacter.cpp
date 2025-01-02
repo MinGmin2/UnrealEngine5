@@ -18,11 +18,6 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 AHomeCharacter::AHomeCharacter()
 {
-	ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(TEXT("/Game/Digimon/ImperialDramon"));
-	if (MeshAsset.Succeeded())
-	{
-		GetMesh()->SetSkeletalMesh(MeshAsset.Object);
-	}
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 		
