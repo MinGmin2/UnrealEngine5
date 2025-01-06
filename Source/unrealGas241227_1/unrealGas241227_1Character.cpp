@@ -81,6 +81,8 @@ void AunrealGas241227_1Character::BeginPlay()
 		AttributeSetVar = AbilitySystemComponent->GetSet<UMyAttributeSet>();
 		if (AttributeSetVar != nullptr)
 		{
+			//델리게이트로 HP 변경시 원하는 함수 호출 가능하도록
+			const_cast<UMyAttributeSet*>(AttributeSetVar)->HealthChaneDelegate.AddDynamic(this,&AunrealGas241227_1Character::OnHealthChangeNative);
 
 		}
 	}
@@ -132,6 +134,133 @@ UMyAbilitySystemComponent* AunrealGas241227_1Character::GetAbilitySystemComponen
 {
 	return AbilitySystemComponent;
 }
+
+void AunrealGas241227_1Character::ChangeAbilityLevelWithTags(FGameplayTagContainer TagContainer, int32 Level)
+{
+	//여러개 삭제
+	TArray<struct FGameplayAbilitySpec*>  MatchingAbilities;
+
+	//현재 가지고있는 태그를 비교해서 매개변수로 넣어준 컨테이너와 일치하는게 있으면 가져옴
+	AbilitySystemComponent->GetActivatableGameplayAbilitySpecsByAllMatchingTags(
+		TagContainer, MatchingAbilities, true);
+
+	//돌아가면서 안에있는 레벨 변경
+	for (FGameplayAbilitySpec* spec : MatchingAbilities)
+	{
+		spec->Level = Level;
+	}
+}
+
+void AunrealGas241227_1Character::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	
+	if (IsValid(AbilitySystemComponent))
+	{
+		//어빌리티 시스템에서 해당 시스템을 사용하는 액터를 불러올수 있도록 전달.
+		AbilitySystemComponent->InitAbilityActorInfo(this,this);
+		InitalizeAbilityMulti(InitialAbilities,1);//에디터에서 설정한 스킬, 전부 레벨 1로
+	}
+}
+void AunrealGas241227_1Character::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	//서버에서도 알맞은 엑터를 쓸려면 여기서도 해야됨
+	if (IsValid(AbilitySystemComponent))
+	{
+		//어빌리티 시스템에서 해당 시스템을 사용하는 액터를 불러올수 있도록 전달.
+		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	}
+}
+
+
+void AunrealGas241227_1Character::InitalizeAbility(
+	TSubclassOf<class UGameplayAbility> AbilityToGet, int32 AbilityLevel)
+{
+	//온라인 상태에서 서버일때만 어빌리티 추가
+	//서버 아니면 하나마나 의미없음.
+	if (HasAuthority()) 
+	{
+		AbilitySystemComponent->GiveAbility(
+			FGameplayAbilitySpec(AbilityToGet, AbilityLevel));
+	}
+}
+
+void AunrealGas241227_1Character::InitalizeAbilityMulti(
+	TArray<TSubclassOf<class UGameplayAbility>> AbilityToAcquire, int32 AbilityLevel)
+{
+	if (HasAuthority())
+	{	//돌면서 다추가
+		for (TSubclassOf<class UGameplayAbility> AbilityItem : AbilityToAcquire)
+		{
+			InitalizeAbility(AbilityItem, AbilityLevel);
+		}
+	}
+}
+
+void AunrealGas241227_1Character::RemoveAbilityWithTags(FGameplayTagContainer TagContainer)
+{
+	//여러개 삭제
+	TArray<struct FGameplayAbilitySpec*>  MatchingAbilities;
+
+	//현재 가지고있는 태그를 비교해서 매개변수로 넣어준 컨테이너와 일치하는게 있으면 가져옴
+	AbilitySystemComponent->GetActivatableGameplayAbilitySpecsByAllMatchingTags(
+		TagContainer, MatchingAbilities,true);
+
+	//돌아가면서 삭제
+	for (FGameplayAbilitySpec* spec : MatchingAbilities)
+	{
+		AbilitySystemComponent->ClearAbility(spec->Handle);
+	}
+}
+
+void AunrealGas241227_1Character::CancelAbilityWithTags(FGameplayTagContainer WithTag, FGameplayTagContainer WithoutTag)
+{
+	AbilitySystemComponent->CancelAbilities(&WithTag, &WithoutTag);
+}
+
+void AunrealGas241227_1Character::AddLooseGamePlayTag(FGameplayTag TagToAdd)
+{
+	AbilitySystemComponent->AddLooseGameplayTag(TagToAdd);
+	AbilitySystemComponent->SetTagMapCount(TagToAdd, 1);
+}
+
+void AunrealGas241227_1Character::RemoveLooseGamePlayTag(FGameplayTag TagToRemove)
+{
+	AbilitySystemComponent->RemoveLooseGameplayTag(TagToRemove);
+}
+
+
+
+void AunrealGas241227_1Character::OnHealthChangeNative(float Health, int32 StackCount)
+{
+	//BlueprintImplementableEvent함수라 여기서 부르면 블루프린트에서 불러짐.
+	OnHealthChange(Health, StackCount);
+	if (Health <= 0)
+	{
+		//죽음.
+	}
+
+}
+void AunrealGas241227_1Character::HealthValues(float& Health, float& MaxHealth)
+{
+	if (IsValid(AttributeSetVar))
+	{
+		Health = AttributeSetVar->GetHealth();
+		MaxHealth = 1000.f; //임시, 나중에 추가해야됨.
+	}
+}
+
+float AunrealGas241227_1Character::GetHealth() const
+{
+	return AttributeSetVar->GetHealth();
+} 
+
+float AunrealGas241227_1Character::GetMaxHealth() const
+{
+	return 1000.f; //임시, 나중에 추가해야됨.
+}
+
 
 void AunrealGas241227_1Character::Move(const FInputActionValue& Value)
 {

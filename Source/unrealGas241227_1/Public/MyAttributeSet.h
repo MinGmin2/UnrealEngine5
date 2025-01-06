@@ -33,7 +33,7 @@ public:
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UMyAttributeSet, Health); //체력관련 함수 다만들어줌
 
-	//현재 체력 변경시 호출할 함수 델리게이트ㅗ
+	//현재 체력 변경시 호출할 함수 델리게이트
 	FAttributeChangeDelegate HealthChaneDelegate;
 	
 	//델리게이트랑 세트, 이거 있어야 값 변경시 호출 가능

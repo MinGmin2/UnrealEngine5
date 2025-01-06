@@ -74,6 +74,73 @@ public: //내꺼 추가
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "GASGamePlayAbility")
 	TSubclassOf<class UGameplayEffect> DefaultAttributes;
 
+
+	//플레이어가 해당 캐릭터 조종권한 얻었을때 컨트롤러
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override; //캐릭터 상태가 변경됐을때 호출됨
+public: //스킬 관련 함수
+
+	//스킬 어빌리티 하나 초기화
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbilitySkill")
+	void InitalizeAbility(
+		TSubclassOf<class UGameplayAbility> AbilityToGet,
+		int32 AbilityLevel);
+
+	//스킬 어빌리티 여러개 한번에 초기화
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbilitySkill")
+	void InitalizeAbilityMulti(
+		TArray<TSubclassOf<class UGameplayAbility>> AbilityToAcquire,
+		int32 AbilityLevel);
+
+
+
+public: //어빌리티 태그 시스템 관련,
+
+	//FGameplayTagContainer는 태그 여러개 담을수있음.
+	//태그 삭제
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbilityTag")
+	void RemoveAbilityWithTags(FGameplayTagContainer TagContainer);
+
+	//태그 취소
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbilityTag")
+	void CancelAbilityWithTags(FGameplayTagContainer WithTag,
+							   FGameplayTagContainer WithoutTag);
+
+	//태그 하나 추가
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbilityTag")
+	void AddLooseGamePlayTag(FGameplayTag TagToAdd);
+
+	//태그 하나만 삭제
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbilityTag")
+	void RemoveLooseGamePlayTag(FGameplayTag TagToRemove);
+
+
+	//태그 레벨 변경 레벨은 LOL로 치면 스킬레벨,QWER
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbilityTag")
+	void ChangeAbilityLevelWithTags(FGameplayTagContainer TagContainer,int32 Level);
+
+
+public: //캐릭터 속성 관련 기능 추가
+
+		UFUNCTION() //체력 변경될때 불러지는 함수
+		void OnHealthChangeNative(float Health, int32 StackCount);
+
+		//BlueprintImplementableEvent 블루프린트에서 이벤트 발생
+		// 얘는 c++에서 안만들고 위에 Native가 c++ 구현임
+		UFUNCTION(BlueprintImplementableEvent, Category = "GASGamePlayAbility")
+		void OnHealthChange(float Health, int32 StackCount);
+
+		//현재 체력을 바로 가져오는거, pure는 구현 없음
+		UFUNCTION(BlueprintPure, Category = "GASGamePlayAbility")
+		void HealthValues(float& Health, float& MaxHealth);
+
+		//그냥 부름
+		UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
+		float GetHealth() const;
+
+		UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
+		float GetMaxHealth() const;
+
 protected:
 
 	/** Called for movement input */
