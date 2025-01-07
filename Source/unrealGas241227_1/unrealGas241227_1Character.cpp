@@ -162,6 +162,7 @@ void AunrealGas241227_1Character::PossessedBy(AController* NewController)
 		InitalizeAbilityMulti(InitialAbilities,1);//에디터에서 설정한 스킬, 전부 레벨 1로
 	}
 }
+
 void AunrealGas241227_1Character::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
@@ -173,21 +174,17 @@ void AunrealGas241227_1Character::OnRep_PlayerState()
 	}
 }
 
-
-void AunrealGas241227_1Character::InitalizeAbility(
-	TSubclassOf<class UGameplayAbility> AbilityToGet, int32 AbilityLevel)
+void AunrealGas241227_1Character::InitalizeAbility(TSubclassOf<class UGameplayAbility> AbilityToGet, int32 AbilityLevel)
 {
 	//온라인 상태에서 서버일때만 어빌리티 추가
 	//서버 아니면 하나마나 의미없음.
 	if (HasAuthority()) 
 	{
-		AbilitySystemComponent->GiveAbility(
-			FGameplayAbilitySpec(AbilityToGet, AbilityLevel));
+		AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(AbilityToGet, AbilityLevel));
 	}
 }
 
-void AunrealGas241227_1Character::InitalizeAbilityMulti(
-	TArray<TSubclassOf<class UGameplayAbility>> AbilityToAcquire, int32 AbilityLevel)
+void AunrealGas241227_1Character::InitalizeAbilityMulti(TArray<TSubclassOf<class UGameplayAbility>> AbilityToAcquire, int32 AbilityLevel)
 {
 	if (HasAuthority())
 	{	//돌면서 다추가
@@ -230,8 +227,6 @@ void AunrealGas241227_1Character::RemoveLooseGamePlayTag(FGameplayTag TagToRemov
 	AbilitySystemComponent->RemoveLooseGameplayTag(TagToRemove);
 }
 
-
-
 void AunrealGas241227_1Character::OnHealthChangeNative(float Health, int32 StackCount)
 {
 	//BlueprintImplementableEvent함수라 여기서 부르면 블루프린트에서 불러짐.
@@ -242,6 +237,7 @@ void AunrealGas241227_1Character::OnHealthChangeNative(float Health, int32 Stack
 	}
 
 }
+
 void AunrealGas241227_1Character::HealthValues(float& Health, float& MaxHealth)
 {
 	if (IsValid(AttributeSetVar))
@@ -253,7 +249,10 @@ void AunrealGas241227_1Character::HealthValues(float& Health, float& MaxHealth)
 
 float AunrealGas241227_1Character::GetHealth() const
 {
-	return AttributeSetVar->GetHealth();
+	if (IsValid(AttributeSetVar))
+		return AttributeSetVar->GetHealth();
+	else
+		return 0.f;
 } 
 
 float AunrealGas241227_1Character::GetMaxHealth() const

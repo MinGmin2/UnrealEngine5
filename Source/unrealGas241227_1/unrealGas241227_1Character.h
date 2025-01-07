@@ -74,10 +74,10 @@ public: //내꺼 추가
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "GASGamePlayAbility")
 	TSubclassOf<class UGameplayEffect> DefaultAttributes;
 
-
 	//플레이어가 해당 캐릭터 조종권한 얻었을때 컨트롤러
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override; //캐릭터 상태가 변경됐을때 호출됨
+
 public: //스킬 관련 함수
 
 	//스킬 어빌리티 하나 초기화
@@ -91,8 +91,6 @@ public: //스킬 관련 함수
 	void InitalizeAbilityMulti(
 		TArray<TSubclassOf<class UGameplayAbility>> AbilityToAcquire,
 		int32 AbilityLevel);
-
-
 
 public: //어빌리티 태그 시스템 관련,
 
@@ -122,24 +120,24 @@ public: //어빌리티 태그 시스템 관련,
 
 public: //캐릭터 속성 관련 기능 추가
 
-		UFUNCTION() //체력 변경될때 불러지는 함수
-		void OnHealthChangeNative(float Health, int32 StackCount);
+	UFUNCTION() //체력 변경될때 불러지는 함수
+	void OnHealthChangeNative(float Health, int32 StackCount);
 
-		//BlueprintImplementableEvent 블루프린트에서 이벤트 발생
-		// 얘는 c++에서 안만들고 위에 Native가 c++ 구현임
-		UFUNCTION(BlueprintImplementableEvent, Category = "GASGamePlayAbility")
-		void OnHealthChange(float Health, int32 StackCount);
+	//BlueprintImplementableEvent 블루프린트에서 이벤트 발생
+	// 얘는 c++에서 안만들고 위에 Native가 c++ 구현임
+	UFUNCTION(BlueprintImplementableEvent, Category = "GASGamePlayAbility")
+	void OnHealthChange(float Health, int32 StackCount);
 
-		//현재 체력을 바로 가져오는거, pure는 구현 없음
-		UFUNCTION(BlueprintPure, Category = "GASGamePlayAbility")
-		void HealthValues(float& Health, float& MaxHealth);
+	//현재 체력을 바로 가져오는거, pure는 구현 없음
+	UFUNCTION(BlueprintPure, Category = "GASGamePlayAbility")
+	void HealthValues(float& Health, float& MaxHealth);
 
-		//그냥 부름
-		UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
-		float GetHealth() const;
+	//그냥 부름
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
+	float GetHealth() const;
 
-		UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
-		float GetMaxHealth() const;
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
+	float GetMaxHealth() const;
 
 protected:
 
