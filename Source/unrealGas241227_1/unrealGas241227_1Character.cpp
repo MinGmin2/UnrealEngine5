@@ -84,6 +84,8 @@ void AunrealGas241227_1Character::BeginPlay()
 			//델리게이트로 HP 변경시 원하는 함수 호출 가능하도록
 			const_cast<UMyAttributeSet*>(AttributeSetVar)->HealthChaneDelegate.AddDynamic(this,&AunrealGas241227_1Character::OnHealthChangeNative);
 
+			InitializeAttribute();
+			AddStartUpEffects();
 		}
 	}
 	else
@@ -172,6 +174,50 @@ void AunrealGas241227_1Character::OnRep_PlayerState()
 		//어빌리티 시스템에서 해당 시스템을 사용하는 액터를 불러올수 있도록 전달.
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	}
+}
+
+void AunrealGas241227_1Character::InitializeAttribute()
+{
+	if (!IsValid(AbilitySystemComponent))
+		return;
+
+	if (!IsValid(DefaultAttributes))
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s()Missing DefaultAttributes"), *FString(__FUNCTION__));
+		return;
+	}
+
+	FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+
+	EffectContext.AddSourceObject(this);
+
+	FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributes, 0, EffectContext);
+
+	if (NewHandle.IsValid())
+	{
+		AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(), AbilitySystemComponent);
+	}
+}
+
+void AunrealGas241227_1Character::AddStartUpEffects()
+{
+	if (!IsValid(AbilitySystemComponent))
+		return;
+
+	FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+
+	EffectContext.AddSourceObject(this);
+
+	for (TSubclassOf<UGameplayEffect> GameplayEffect : StartUpEffects)
+	{
+		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(GameplayEffect, 0, EffectContext);
+
+		if (NewHandle.IsValid())
+		{
+			AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(), AbilitySystemComponent);
+		}
+	}
+	
 }
 
 void AunrealGas241227_1Character::InitalizeAbility(TSubclassOf<class UGameplayAbility> AbilityToGet, int32 AbilityLevel)
