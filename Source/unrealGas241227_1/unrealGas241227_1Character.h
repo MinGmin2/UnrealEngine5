@@ -70,7 +70,7 @@ public: //내꺼 추가
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GASGamePlayAbility")
 	TArray<TSubclassOf<class UGameplayAbility>> InitialAbilities;
 
-	//스킬 관련 게임 어빌리티, 초기 능력치 세팅
+	// 스킬 관련 게임 어빌리티, 초기 능력치 세팅
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "GASGamePlayAbility")
 	TSubclassOf<class UGameplayEffect> DefaultAttributes;
 
