@@ -280,6 +280,7 @@ void AunrealGas241227_1Character::OnHealthChangeNative(float Health, int32 Stack
 	if (Health <= 0)
 	{
 		//죽음.
+		Die();
 	}
 
 }
@@ -306,6 +307,32 @@ float AunrealGas241227_1Character::GetMaxHealth() const
 	return 1000.f; //임시, 나중에 추가해야됨.
 }
 
+void AunrealGas241227_1Character::Die()
+{
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCharacterMovement()->GravityScale = 0;
+	GetCharacterMovement()->Velocity = FVector(0);
+
+	if (IsValid(AbilitySystemComponent))
+	{
+		// 현재 실행중인 어빌리티 모두 취소
+		AbilitySystemComponent->CancelAbilities();
+		// Die태그 생성
+		FGameplayTag DieEffectTag = FGameplayTag::RequestGameplayTag(FName("Die"));
+
+		// 태그를 담기위한 컨테이너
+		FGameplayTagContainer GameplayTag{ DieEffectTag };
+
+		// 내 어빌리티 중에 Die태그가 붙은 어빌리티가 있으면 그것을 Activate
+		bool IsSucces = AbilitySystemComponent->TryActivateAbilitiesByTag(GameplayTag);
+		if (IsSucces == false)
+		{
+			// 태그가 없으면 태그만 넣어줌.
+			AbilitySystemComponent->AddLooseGameplayTag(DieEffectTag);
+			FinishDying();
+		}
+	}
+}
 
 void AunrealGas241227_1Character::Move(const FInputActionValue& Value)
 {

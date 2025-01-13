@@ -120,11 +120,9 @@ public: //어빌리티 태그 시스템 관련,
 	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbilityTag")
 	void RemoveLooseGamePlayTag(FGameplayTag TagToRemove);
 
-
 	//태그 레벨 변경 레벨은 LOL로 치면 스킬레벨,QWER
 	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbilityTag")
 	void ChangeAbilityLevelWithTags(FGameplayTagContainer TagContainer,int32 Level);
-
 
 public: //캐릭터 속성 관련 기능 추가
 
@@ -147,8 +145,15 @@ public: //캐릭터 속성 관련 기능 추가
 	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
 	float GetMaxHealth() const;
 
-protected:
+public:
+	// 코드에서 부를 함수 ( Die )
+	void Die();
 
+	// 죽었을때 부를 함수 블루프린트에서 확인 가능
+	UFUNCTION(BlueprintImplementableEvent, Category = "GASGamePlayAbilityAttribute")
+	void FinishDying();
+
+protected:
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 
