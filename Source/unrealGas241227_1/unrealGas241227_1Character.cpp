@@ -307,6 +307,19 @@ float AunrealGas241227_1Character::GetMaxHealth() const
 	return 1000.f; //임시, 나중에 추가해야됨.
 }
 
+float AunrealGas241227_1Character::GetExp() const
+{
+	if (IsValid(AttributeSetVar))
+		return AttributeSetVar->GetExp();
+	else
+		return 0.f;
+}
+
+float AunrealGas241227_1Character::GetMaxExp() const
+{
+	return 999999.9f;
+}
+
 void AunrealGas241227_1Character::Die()
 {
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);

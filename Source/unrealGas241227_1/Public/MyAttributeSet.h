@@ -35,7 +35,15 @@ public:
 
 	//현재 체력 변경시 호출할 함수 델리게이트
 	FAttributeChangeDelegate HealthChaneDelegate;
-	
+
+	// -------- 경험치(Exp) --------
+	UFUNCTION()
+	virtual void OnRep_Exp(const FGameplayAttributeData& OldExp);
+
+	UPROPERTY(BlueprintReadOnly , Category = "Attributes" , ReplicatedUsing = OnRep_Exp)
+	FGameplayAttributeData Exp;
+	ATTRIBUTE_ACCESSORS(UMyAttributeSet, Exp);
+
 	//델리게이트랑 세트, 이거 있어야 값 변경시 호출 가능
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
