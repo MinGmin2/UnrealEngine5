@@ -17,7 +17,7 @@ struct FGameplayEffectModCallbackData;
 
 //델리게이트 파라미터 두개짜리, 속성 변경될때 속성 값(float),StackCount(뭔지모름) 이거 두개 준다.
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttributeChangeDelegate, float, Attr, int32, StackCount);
-
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnExpChangeDelegate);
 UCLASS()
 class UNREALGAS241227_1_API UMyAttributeSet : public UAttributeSet
 {
@@ -43,6 +43,16 @@ public:
 	UPROPERTY(BlueprintReadOnly , Category = "Attributes" , ReplicatedUsing = OnRep_Exp)
 	FGameplayAttributeData Exp;
 	ATTRIBUTE_ACCESSORS(UMyAttributeSet, Exp);
+
+	//FOnExpChangeDelegate ExpChangeDelegate;
+
+	// -------- 레벨(Level) --------
+	UFUNCTION()
+	virtual void OnRep_PlayerLevel(const FGameplayAttributeData& OldPlayerLevel);
+
+	UPROPERTY(BlueprintReadOnly , Category = "Attributes" , ReplicatedUsing = OnRep_PlayerLevel)
+	FGameplayAttributeData PlayerLevel;
+	ATTRIBUTE_ACCESSORS(UMyAttributeSet, PlayerLevel);
 
 	//델리게이트랑 세트, 이거 있어야 값 변경시 호출 가능
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;

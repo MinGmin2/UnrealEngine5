@@ -78,12 +78,15 @@ void AunrealGas241227_1Character::BeginPlay()
 	if (IsValid(AbilitySystemComponent))
 	{
 		//데이터 에셋을 에디터에서 넣은걸 여기서 UMyAttributeSet타입으로
-		AttributeSetVar = AbilitySystemComponent->GetSet<UMyAttributeSet>();
+		AttributeSetVar = (AbilitySystemComponent->GetSet<UMyAttributeSet>());
 		if (AttributeSetVar != nullptr)
 		{
+			//const_cast<UMyAttributeSet*>(AttributeSetVar)->ExpChangeDelegate.AddDynamic(this, &AunrealGas241227_1Character::CheckLevelUp);
 			//델리게이트로 HP 변경시 원하는 함수 호출 가능하도록
 			const_cast<UMyAttributeSet*>(AttributeSetVar)->HealthChaneDelegate.AddDynamic(this,&AunrealGas241227_1Character::OnHealthChangeNative);
 
+			
+			//AttributeSetVar->ExpChangeDelegate.AddDynamic(this, &AunrealGas241227_1Character::CheckLevelUp);
 			InitializeAttribute();
 			AddStartUpEffects();
 		}
@@ -318,6 +321,12 @@ float AunrealGas241227_1Character::GetExp() const
 float AunrealGas241227_1Character::GetMaxExp() const
 {
 	return 999999.9f;
+}
+
+void AunrealGas241227_1Character::CheckLevelUp()
+{
+	if (!IsValid(AttributeSetVar))
+		return;
 }
 
 void AunrealGas241227_1Character::Die()
