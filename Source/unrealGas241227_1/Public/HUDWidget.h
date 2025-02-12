@@ -25,8 +25,8 @@ public:
 	void SetMaxHealth(float MaxHealth);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetCurrentExp(float CurrentExp);
+	void SetCurrentExp(float CurrentExp , float MaxExp);
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetMaxExp(float MaxExp);
+	/*UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetMaxExp(float MaxExp);*/
 };

@@ -44,6 +44,14 @@ public:
 	FGameplayAttributeData Exp;
 	ATTRIBUTE_ACCESSORS(UMyAttributeSet, Exp);
 
+	// -------- Max경험치(MaxExp) --------
+	UFUNCTION()
+	virtual void OnRep_MaxExp(const FGameplayAttributeData& OldMaxExp);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_MaxExp)
+	FGameplayAttributeData MaxExp;
+	ATTRIBUTE_ACCESSORS(UMyAttributeSet, MaxExp);
+
 	//FOnExpChangeDelegate ExpChangeDelegate;
 
 	// -------- 레벨(Level) --------

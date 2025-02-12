@@ -320,7 +320,10 @@ float AunrealGas241227_1Character::GetExp() const
 
 float AunrealGas241227_1Character::GetMaxExp() const
 {
-	return 999999.9f;
+	if (IsValid(AttributeSetVar))
+		return AttributeSetVar->GetMaxExp();
+	else
+		return 0.f;
 }
 
 void AunrealGas241227_1Character::CheckLevelUp()
