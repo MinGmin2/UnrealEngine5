@@ -25,6 +25,7 @@ class UNREALGAS241227_1_API UMyAttributeSet : public UAttributeSet
 public:
 	UMyAttributeSet();
 	
+	// -------- 체력(Health) --------
 	UFUNCTION()
 	virtual void OnRep_Health(const FGameplayAttributeData& OldHealth);
 
@@ -35,6 +36,14 @@ public:
 
 	//현재 체력 변경시 호출할 함수 델리게이트
 	FAttributeChangeDelegate HealthChaneDelegate;
+
+	// -------- Max체력(MaxHealth) --------
+	UFUNCTION()
+	virtual void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_MaxHealth)
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UMyAttributeSet, MaxHealth);
 
 	// -------- 경험치(Exp) --------
 	UFUNCTION()

@@ -19,10 +19,10 @@ public:
 	void SetPlayer(class AunrealGas241227_1Character* Player);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetCurrentHealth(float CurrentHealth);
+	void SetCurrentHealth(float CurrentHealth , float MaxHealth);
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetMaxHealth(float MaxHealth);
+	/*UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetMaxHealth(float MaxHealth);*/
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void SetCurrentExp(float CurrentExp , float MaxExp);
