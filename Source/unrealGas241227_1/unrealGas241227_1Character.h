@@ -151,6 +151,9 @@ public: //캐릭터 속성 관련 기능 추가
 	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
 	float GetMaxExp() const;
 
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
+	float GetDamage() const;
+
 	void CheckLevelUp();
 public:
 	// 코드에서 부를 함수 ( Die )

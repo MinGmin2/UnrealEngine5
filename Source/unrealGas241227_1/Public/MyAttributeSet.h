@@ -65,9 +65,17 @@ public:
 
 	// -------- 레벨(Level) --------
 	UFUNCTION()
+	virtual void OnRep_Damage(const FGameplayAttributeData& OldDamage);
+
+	UPROPERTY(BlueprintReadOnly , Category = "Attributes" , ReplicatedUsing = OnRep_Damage)
+	FGameplayAttributeData Damage;
+	ATTRIBUTE_ACCESSORS(UMyAttributeSet, Damage);
+
+	// -------- 데미지(Damage) --------
+	UFUNCTION()
 	virtual void OnRep_PlayerLevel(const FGameplayAttributeData& OldPlayerLevel);
 
-	UPROPERTY(BlueprintReadOnly , Category = "Attributes" , ReplicatedUsing = OnRep_PlayerLevel)
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_PlayerLevel)
 	FGameplayAttributeData PlayerLevel;
 	ATTRIBUTE_ACCESSORS(UMyAttributeSet, PlayerLevel);
 

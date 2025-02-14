@@ -24,6 +24,10 @@ void UMyAttributeSet::OnRep_MaxExp(const FGameplayAttributeData& OldMaxExp)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMyAttributeSet, MaxExp, OldMaxExp)
 }
+void UMyAttributeSet::OnRep_Damage(const FGameplayAttributeData& OldDamage)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMyAttributeSet, Damage, OldDamage)
+}
 void UMyAttributeSet::OnRep_PlayerLevel(const FGameplayAttributeData& OldPlayerLevel)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMyAttributeSet, PlayerLevel, OldPlayerLevel);
@@ -37,6 +41,7 @@ void UMyAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	DOREPLIFETIME_CONDITION_NOTIFY(UMyAttributeSet, Exp, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMyAttributeSet, MaxExp, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMyAttributeSet, PlayerLevel, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMyAttributeSet, Damage, COND_None, REPNOTIFY_Always);
 }
 //실질 적으로 호출 되는 이벤트 확인하는 부분
 void UMyAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)

@@ -293,7 +293,7 @@ void AunrealGas241227_1Character::HealthValues(float& Health, float& MaxHealth)
 	if (IsValid(AttributeSetVar))
 	{
 		Health = AttributeSetVar->GetHealth();
-		MaxHealth = 1000.f; //임시, 나중에 추가해야됨.
+		MaxHealth = AttributeSetVar->GetMaxHealth();
 	}
 }
 
@@ -325,6 +325,14 @@ float AunrealGas241227_1Character::GetMaxExp() const
 {
 	if (IsValid(AttributeSetVar))
 		return AttributeSetVar->GetMaxExp();
+	else
+		return 0.f;
+}
+
+float AunrealGas241227_1Character::GetDamage() const
+{
+	if (IsValid(AttributeSetVar))
+		return AttributeSetVar->GetDamage();
 	else
 		return 0.f;
 }
