@@ -337,6 +337,30 @@ float AunrealGas241227_1Character::GetDamage() const
 		return 0.f;
 }
 
+float AunrealGas241227_1Character::GetArmor() const
+{
+	if (IsValid(AttributeSetVar))
+		return AttributeSetVar->GetArmor();
+	else
+		return 0.f;
+}
+
+float AunrealGas241227_1Character::GetAttackSpeed() const
+{
+	if (IsValid(AttributeSetVar))
+		return AttributeSetVar->GetAttackSpeed();
+	else
+		return 0.f;
+}
+
+float AunrealGas241227_1Character::GetMoveSpeed() const
+{
+	if (IsValid(AttributeSetVar))
+		return AttributeSetVar->GetMoveSpeed();
+	else
+		return 0.f;
+}
+
 void AunrealGas241227_1Character::CheckLevelUp()
 {
 	if (!IsValid(AttributeSetVar))

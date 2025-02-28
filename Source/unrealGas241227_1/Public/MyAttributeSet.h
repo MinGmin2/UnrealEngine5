@@ -79,6 +79,30 @@ public:
 	FGameplayAttributeData PlayerLevel;
 	ATTRIBUTE_ACCESSORS(UMyAttributeSet, PlayerLevel);
 
+	// -------- 방어력(Armor) --------
+	UFUNCTION()
+	virtual void OnRep_Armor(const FGameplayAttributeData& OldArmor);
+
+	UPROPERTY(BlueprintReadOnly , Category = "Attributes", ReplicatedUsing = OnRep_Armor)
+	FGameplayAttributeData Armor;
+	ATTRIBUTE_ACCESSORS(UMyAttributeSet, Armor);
+
+	// -------- 공격속도(AttackSpeed) --------
+	UFUNCTION()
+	virtual void OnRep_AttackSpeed(const FGameplayAttributeData& OldAttackSpeed);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_AttackSpeed)
+	FGameplayAttributeData AttackSpeed;
+	ATTRIBUTE_ACCESSORS(UMyAttributeSet, AttackSpeed);
+
+	// -------- 이동속도(MoveSpeed) --------
+	UFUNCTION()
+	virtual void OnRep_MoveSpeed(const FGameplayAttributeData& OldMoveSpeed);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_MoveSpeed)
+	FGameplayAttributeData MoveSpeed;
+	ATTRIBUTE_ACCESSORS(UMyAttributeSet, MoveSpeed);
+
 	//델리게이트랑 세트, 이거 있어야 값 변경시 호출 가능
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;

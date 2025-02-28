@@ -32,6 +32,18 @@ void UMyAttributeSet::OnRep_PlayerLevel(const FGameplayAttributeData& OldPlayerL
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMyAttributeSet, PlayerLevel, OldPlayerLevel);
 }
+void UMyAttributeSet::OnRep_Armor(const FGameplayAttributeData& OldArmor)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMyAttributeSet, Armor, OldArmor);
+}
+void UMyAttributeSet::OnRep_AttackSpeed(const FGameplayAttributeData& OldAttackSpeed)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMyAttributeSet, AttackSpeed, OldAttackSpeed);
+}
+void UMyAttributeSet::OnRep_MoveSpeed(const FGameplayAttributeData& OldMoveSpeed)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMyAttributeSet, MoveSpeed, OldMoveSpeed);
+}
 //이함수가 있어야 multicast 수신 가능
 void UMyAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
@@ -42,6 +54,9 @@ void UMyAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	DOREPLIFETIME_CONDITION_NOTIFY(UMyAttributeSet, MaxExp, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMyAttributeSet, PlayerLevel, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMyAttributeSet, Damage, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMyAttributeSet, Armor, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMyAttributeSet, AttackSpeed, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMyAttributeSet, MoveSpeed, COND_None, REPNOTIFY_Always);
 }
 //실질 적으로 호출 되는 이벤트 확인하는 부분
 void UMyAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
