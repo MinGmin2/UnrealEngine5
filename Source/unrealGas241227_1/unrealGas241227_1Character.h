@@ -146,6 +146,12 @@ public: //캐릭터 속성 관련 기능 추가
 	float GetMaxHealth() const;
 
 	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
+	float GetMana() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
+	float GetMaxMana() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")
 	float GetExp() const;
 
 	UFUNCTION(BlueprintCallable, Category = "GASGamePlayAbility")

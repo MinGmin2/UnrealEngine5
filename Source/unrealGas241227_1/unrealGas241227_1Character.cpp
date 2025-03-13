@@ -313,6 +313,23 @@ float AunrealGas241227_1Character::GetMaxHealth() const
 		return 0.f;
 }
 
+float AunrealGas241227_1Character::GetMana() const
+{
+	if (IsValid(AttributeSetVar))
+		return AttributeSetVar->GetMana();
+	else
+		return 0.f;
+	
+}
+
+float AunrealGas241227_1Character::GetMaxMana() const
+{
+	if (IsValid(AttributeSetVar))
+		return AttributeSetVar->GetMaxMana();
+	else
+		return 0.f;
+}
+
 float AunrealGas241227_1Character::GetExp() const
 {
 	if (IsValid(AttributeSetVar))

@@ -27,6 +27,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void SetCurrentExp(float CurrentExp , float MaxExp);
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetCurrentMana(float CurrentMana, float MaxMana);
+
 	/*UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void SetMaxExp(float MaxExp);*/
 };

@@ -34,6 +34,7 @@ void AMyHUD::SpawnPlayerStateSetting(AunrealGas241227_1Character* Player)
 		UIHUDWidget->SetCurrentHealth(Player->GetHealth() , Player->GetMaxHealth());
 		//UIHUDWidget->SetMaxHealth(Player->GetMaxHealth());
 		UIHUDWidget->SetCurrentExp(Player->GetExp() , Player->GetMaxExp());
+		UIHUDWidget->SetCurrentMana(Player->GetMana(), Player->GetMaxMana());
 		//UIHUDWidget->SetMaxExp(Player->GetMaxExp());
 	}
 }
