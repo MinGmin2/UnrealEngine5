@@ -77,6 +77,8 @@ void AunrealGas241227_1Character::BeginPlay()
 	//생성자에서 생성 했음.
 	if (IsValid(AbilitySystemComponent))
 	{
+		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+
 		//데이터 에셋을 에디터에서 넣은걸 여기서 UMyAttributeSet타입으로
 		AttributeSetVar = (AbilitySystemComponent->GetSet<UMyAttributeSet>());
 		if (AttributeSetVar != nullptr)
@@ -176,6 +178,14 @@ void AunrealGas241227_1Character::OnRep_PlayerState()
 	{
 		//어빌리티 시스템에서 해당 시스템을 사용하는 액터를 불러올수 있도록 전달.
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	}
+}
+
+void AunrealGas241227_1Character::InitializeAbilitySystem()
+{
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->InitAbilityActorInfo(this->GetController(), this);
 	}
 }
 

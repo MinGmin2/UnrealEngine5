@@ -82,6 +82,9 @@ public: //내꺼 추가
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override; //캐릭터 상태가 변경됐을때 호출됨
 
+	UFUNCTION(BlueprintCallable)
+	void InitializeAbilitySystem();
+
 public: //스킬 관련 함수
 
 	// 기본 능력치 초기화
