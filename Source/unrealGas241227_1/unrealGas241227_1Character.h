@@ -8,8 +8,10 @@
 
 #include "MyAbilitySystemComponent.h"//어빌리티 시스템
 #include "MyAttributeSet.h" //어트뷰트
+#include "Enum/EUsedSkill.h"
 
 #include "unrealGas241227_1Character.generated.h"
+
 
 class UMyAbilitySystemComponent; //클래스 전방선언
 class UMyAttributeSet;
@@ -51,12 +53,26 @@ class AunrealGas241227_1Character : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* LMBAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* RMBAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* QAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* RAction;
+
 public:
 	AunrealGas241227_1Character();
 	
 
 public: //내꺼 추가
 	//어빌리티 시스템 컴포넌트 추가
+	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GASGamePlayAbility")
 	class UMyAbilitySystemComponent* AbilitySystemComponent;
 	//Get함수
@@ -188,6 +204,33 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	// Implement Skill
+	void LMBSkill();
+
+	void RMBSkill();
+	void RMBSkillTag();
+
+	void QSkill();
+
+	void RSkill();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnSkillUsed();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skills")
+	TSubclassOf<UGameplayAbility> LMBSkillClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skills")
+	TSubclassOf<UGameplayAbility> RMBSkillClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skills")
+	TSubclassOf<UGameplayAbility> QSkillClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skills")
+	TSubclassOf<UGameplayAbility> RSkillClass;
+
+	// 이제 스킬쿨도 돌리니까 이제 레벨업시에 Unlock Skill에 Contain될 경우에만 되게끔 해야됨.
 			
 protected:
 	virtual void BeginPlay();

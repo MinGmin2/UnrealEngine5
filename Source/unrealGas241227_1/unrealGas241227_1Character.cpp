@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -130,6 +131,15 @@ void AunrealGas241227_1Character::SetupPlayerInputComponent(UInputComponent* Pla
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AunrealGas241227_1Character::Look);
+
+		EnhancedInputComponent->BindAction(LMBAction, ETriggerEvent::Triggered, this, &AunrealGas241227_1Character::LMBSkill);
+
+		EnhancedInputComponent->BindAction(RMBAction, ETriggerEvent::Triggered, this, &AunrealGas241227_1Character::RMBSkill);
+		EnhancedInputComponent->BindAction(RMBAction, ETriggerEvent::Completed, this, &AunrealGas241227_1Character::RMBSkillTag);
+
+		EnhancedInputComponent->BindAction(QAction, ETriggerEvent::Triggered, this, &AunrealGas241227_1Character::QSkill);
+		EnhancedInputComponent->BindAction(RAction, ETriggerEvent::Triggered, this, &AunrealGas241227_1Character::RSkill);
+
 	}
 	else
 	{
@@ -455,4 +465,71 @@ void AunrealGas241227_1Character::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AunrealGas241227_1Character::LMBSkill()
+{
+	if (!AbilitySystemComponent || !LMBSkillClass)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ASC or SkillClass Missing"));
+		return;
+	}
+
+	bool bActivated = AbilitySystemComponent->TryActivateAbilityByClass(LMBSkillClass);
+
+	if (bActivated)
+	{
+		UE_LOG(LogTemp, Log, TEXT("LMB 스킬 발동 성공 !"));
+	}
+	else
+		UE_LOG(LogTemp, Log, TEXT("LMB 스킬 발동 실패 !"));
+}
+
+void AunrealGas241227_1Character::RMBSkill()
+{
+	if (!AbilitySystemComponent || !RMBSkillClass)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ASC or SkillClass Missing"));
+		return;
+	}
+
+	AbilitySystemComponent->TryActivateAbilityByClass(RMBSkillClass);
+
+	OnSkillUsed();
+}
+
+void AunrealGas241227_1Character::RMBSkillTag()
+{
+	FGameplayTag EventTag = FGameplayTag::RequestGameplayTag(FName("GameplayCue.Test"));
+	FGameplayEventData EventData;
+
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, EventTag , EventData);
+
+	OnSkillUsed();
+}
+
+void AunrealGas241227_1Character::QSkill()
+{
+	if (!AbilitySystemComponent || !QSkillClass)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ASC or SkillClass Missing"));
+		return;
+	}
+
+	AbilitySystemComponent->TryActivateAbilityByClass(QSkillClass);
+
+	OnSkillUsed();
+}
+
+void AunrealGas241227_1Character::RSkill()
+{
+	if (!AbilitySystemComponent || !RSkillClass)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ASC or SkillClass Missing"));
+		return;
+	}
+
+	AbilitySystemComponent->TryActivateAbilityByClass(RSkillClass);
+
+	OnSkillUsed();
 }
