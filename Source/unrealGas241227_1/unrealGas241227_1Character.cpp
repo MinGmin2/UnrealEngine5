@@ -10,7 +10,9 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
-#include "CUserWidget_LevelUpInfo.h"
+#include "Widget/CUserWidget_LevelUpInfo.h"
+#include "CGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 #include "AbilitySystemBlueprintLibrary.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -71,6 +73,8 @@ AunrealGas241227_1Character::AunrealGas241227_1Character()
 
 //////////////////////////////////////////////////////////////////////////
 // Input
+
+
 
 
 void AunrealGas241227_1Character::BeginPlay()
@@ -711,5 +715,83 @@ void AunrealGas241227_1Character::CloseLevelUpUI()
 		LevelUpWidget->RemoveFromParent();
 		LevelUpWidget = nullptr;
 		UE_LOG(LogTemp, Warning, TEXT("LevelUpWidget Initialization"));
+	}
+}
+
+void AunrealGas241227_1Character::EquipItem(const FSTItemData& Item)
+{
+	UCGameInstance* GI = Cast<UCGameInstance>(UGameplayStatics::GetGameInstance(this));
+
+	if (!GI) return;
+
+	if (GI->EquippedItems.Contains(Item.ItemType))
+	{
+		GI->EquippedItems.Remove(Item.ItemType);
+	}
+
+	GI->EquippedItems.Add(Item.ItemType, Item);
+
+	UE_LOG(LogTemp, Log, TEXT("%s Equipped"), *Item.ItemName.ToString());
+
+	EquipItemValue(Item.ItemType , Item.ItemAttributeValue);
+}
+
+void AunrealGas241227_1Character::EquipItemValue(EItemType ItemType , float Value)
+{
+	TSubclassOf<UGameplayEffect> GEClass = nullptr;
+	FString TagString;
+
+	switch (ItemType)
+	{
+	case EItemType::Helmet:
+		GEClass = GE_Armor;
+		TagString = "GameplayCue.Armor";
+		break;
+
+	case EItemType::TorsoArmor:
+		GEClass = GE_Armor;
+		TagString = "GameplayCue.Armor";
+		break;
+
+	case EItemType::LegArmor:
+		GEClass = GE_Health;
+		TagString = "GameplayCue.Health";
+		break;
+
+	case EItemType::Gloves:
+		GEClass = GE_AttackSpeed;
+		TagString = "GameplayCue.AttackSpeed";
+		break;
+
+	case EItemType::Boots:
+		GEClass = GE_MoveSpeed;
+		TagString = "GameplayCue.MoveSpeed";
+		break;
+		
+	case EItemType::Weapon:
+		GEClass = GE_Damage;
+		TagString = "GameplayCue.Damage";
+	}
+
+	if (!GEClass || TagString.IsEmpty()) return;
+
+	const FGameplayTag Tag = FGameplayTag::RequestGameplayTag(FName(*TagString));
+
+	if (!Tag.IsValid())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Invalid GameplayTag : %s"), *TagString);
+		return;
+	}
+
+	// GE 생성 및 적용
+	FGameplayEffectContextHandle Context = AbilitySystemComponent->MakeEffectContext();
+	FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(GEClass, 1.f, Context);
+
+	if (SpecHandle.IsValid())
+	{
+		SpecHandle.Data->SetSetByCallerMagnitude(Tag, Value);
+		AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+
+		UE_LOG(LogTemp, Log, TEXT("Applied %s +%.1f"), *Tag.ToString(), Value);
 	}
 }

@@ -10,7 +10,8 @@
 #include "MyAttributeSet.h" //æÓ∆Æ∫‰∆Æ
 #include "Enum/EUsedSkill.h"
 #include "Struct/STLevelUpOption.h"
-#include "CUserWidget_LevelUpInfo.h"
+#include "Widget/CUserWidget_LevelUpInfo.h"
+#include "Struct/STItemData.h"
 #include "Engine/DataTable.h"
 #include "unrealGas241227_1Character.generated.h"
 
@@ -302,9 +303,22 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void CloseLevelUpUI();
-
-	
 			
+	// Obtain Item
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite , Category = "Item")
+	TArray<FSTItemData> Inventory;
+
+	// EquipItem
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+	FSTItemData ItemData;
+
+	UFUNCTION(BlueprintCallable)
+	void EquipItem(const FSTItemData& Item);
+
+	UFUNCTION(BlueprintCallable)
+	void EquipItemValue(EItemType ItemType , float Value);
+
+
 protected:
 	virtual void BeginPlay();
 

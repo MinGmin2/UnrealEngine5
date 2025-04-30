@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Struct/STLevelUpOption.h"
+#include "Enum/EItemRarity.h"
 #include "CUserWidget_LevelUpInfo.generated.h"
 
 /**
