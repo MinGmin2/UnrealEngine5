@@ -9,7 +9,9 @@
 #include "MyAbilitySystemComponent.h"//어빌리티 시스템
 #include "MyAttributeSet.h" //어트뷰트
 #include "Enum/EUsedSkill.h"
-
+#include "Struct/STLevelUpOption.h"
+#include "CUserWidget_LevelUpInfo.h"
+#include "Engine/DataTable.h"
 #include "unrealGas241227_1Character.generated.h"
 
 
@@ -230,7 +232,78 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skills")
 	TSubclassOf<UGameplayAbility> RSkillClass;
 
+	UPROPERTY(BlueprintReadWrite)
+	TArray<EUsedSkill> UnlockSkill;
+
 	// 이제 스킬쿨도 돌리니까 이제 레벨업시에 Unlock Skill에 Contain될 경우에만 되게끔 해야됨.
+	// -> 이걸 하려면 UI쪽 LevelUp쪽을 건드려야함 ;; 
+
+	// PlayerLevel
+	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = "Level")
+	int32 CurrentLevel = 1;
+
+	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = "Level")
+	float CurrentExp = 0.0f;
+
+	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = "Level")
+	float ExpToNextLevel = 100.0f;
+
+	UFUNCTION(BlueprintCallable, Category = "Level")
+	void AddExp(float Amount);
+
+	UFUNCTION(BlueprintCallable, Category = "Level")
+	void LevelUp();
+
+	UPROPERTY(EditDefaultsOnly, Category = "GAS");
+	TSubclassOf<UGameplayEffect> GE_LevelUpEffect;
+
+	// Apply LevelUp Choice Stat of Skill
+	UFUNCTION(BlueprintCallable)
+	void ApplyLevelUp(const FSTLevelUpOption& Option);
+
+	void ApplyAttributeEffect(EAttributeType Type, float Value);
+
+	UPROPERTY(EditDefaultsOnly, Category = "LevelUp|Effect")
+	TSubclassOf<class UGameplayEffect> GE_Damage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "LevelUp|Effect")
+	TSubclassOf<class UGameplayEffect> GE_Health;
+
+	UPROPERTY(EditDefaultsOnly, Category = "LevelUp|Effect")
+	TSubclassOf<class UGameplayEffect> GE_Armor;
+
+	UPROPERTY(EditDefaultsOnly, Category = "LevelUp|Effect")
+	TSubclassOf<class UGameplayEffect> GE_AttackSpeed;
+
+	UPROPERTY(EditDefaultsOnly, Category = "LevelUp|Effect")
+	TSubclassOf<class UGameplayEffect> GE_MoveSpeed;
+
+	// LevelUpUI
+	UPROPERTY(EditDefaultsOnly , Category = "UI")
+	TSubclassOf<UCUserWidget_LevelUpInfo> LevelUpWidgetClass;
+
+	UPROPERTY()
+	UCUserWidget_LevelUpInfo* LevelUpWidget;
+
+	UPROPERTY(EditDefaultsOnly , Category = "LevelUp")
+	TArray<FSTLevelUpOption> AllLevelUpOption;
+
+	UPROPERTY(VisibleAnyWhere)
+	TArray<FSTLevelUpOption> CurrentOption;
+
+	UPROPERTY(EditDefaultsOnly , Category = "LevelUp")
+	UDataTable* LevelUpDataOption;
+
+	UFUNCTION(BlueprintCallable, Category = "LevelUp")
+	void GenerateRandomLevelUpOption(int32 Count);
+
+	UFUNCTION(BlueprintCallable, Category = "LevelUp")
+	void ShowLevelUpUI();
+
+	UFUNCTION(BlueprintCallable)
+	void CloseLevelUpUI();
+
+	
 			
 protected:
 	virtual void BeginPlay();

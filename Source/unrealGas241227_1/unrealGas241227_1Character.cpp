@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "CUserWidget_LevelUpInfo.h"
 #include "AbilitySystemBlueprintLibrary.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -70,6 +71,7 @@ AunrealGas241227_1Character::AunrealGas241227_1Character()
 
 //////////////////////////////////////////////////////////////////////////
 // Input
+
 
 void AunrealGas241227_1Character::BeginPlay()
 {
@@ -475,14 +477,7 @@ void AunrealGas241227_1Character::LMBSkill()
 		return;
 	}
 
-	bool bActivated = AbilitySystemComponent->TryActivateAbilityByClass(LMBSkillClass);
-
-	if (bActivated)
-	{
-		UE_LOG(LogTemp, Log, TEXT("LMB 스킬 발동 성공 !"));
-	}
-	else
-		UE_LOG(LogTemp, Log, TEXT("LMB 스킬 발동 실패 !"));
+	AbilitySystemComponent->TryActivateAbilityByClass(LMBSkillClass);
 }
 
 void AunrealGas241227_1Character::RMBSkill()
@@ -493,9 +488,12 @@ void AunrealGas241227_1Character::RMBSkill()
 		return;
 	}
 
-	AbilitySystemComponent->TryActivateAbilityByClass(RMBSkillClass);
+	if (UnlockSkill.Contains(EUsedSkill::RMB))
+	{
+		AbilitySystemComponent->TryActivateAbilityByClass(RMBSkillClass);
 
-	OnSkillUsed();
+		OnSkillUsed();
+	}
 }
 
 void AunrealGas241227_1Character::RMBSkillTag()
@@ -516,9 +514,12 @@ void AunrealGas241227_1Character::QSkill()
 		return;
 	}
 
-	AbilitySystemComponent->TryActivateAbilityByClass(QSkillClass);
+	if (UnlockSkill.Contains(EUsedSkill::Q))
+	{
+		AbilitySystemComponent->TryActivateAbilityByClass(QSkillClass);
 
-	OnSkillUsed();
+		OnSkillUsed();
+	}
 }
 
 void AunrealGas241227_1Character::RSkill()
@@ -529,7 +530,186 @@ void AunrealGas241227_1Character::RSkill()
 		return;
 	}
 
-	AbilitySystemComponent->TryActivateAbilityByClass(RSkillClass);
+	if (UnlockSkill.Contains(EUsedSkill::R))
+	{
+		AbilitySystemComponent->TryActivateAbilityByClass(RSkillClass);
 
-	OnSkillUsed();
+		OnSkillUsed();
+	}
+}
+
+void AunrealGas241227_1Character::AddExp(float Amount)
+{
+	CurrentExp += Amount;
+
+	while (CurrentExp >= ExpToNextLevel)
+	{
+		CurrentExp -= ExpToNextLevel;
+		LevelUp(); // LevelUP
+	}
+}
+
+void AunrealGas241227_1Character::LevelUp()
+{
+	CurrentLevel++;
+
+	FGameplayEffectContextHandle Context = AbilitySystemComponent->MakeEffectContext();
+	FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(GE_LevelUpEffect, 1.f, Context);
+
+	if (SpecHandle.IsValid())
+	{
+		SpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::EmptyTag, 0.f);
+		AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+	}
+	
+	ExpToNextLevel *= 1.2f;
+	UE_LOG(LogTemp, Log, TEXT("LevelUp ! CurrentLevel : %d"), CurrentLevel);
+	UE_LOG(LogTemp, Log, TEXT("LevelUpEffect Apply"));
+
+	
+	ShowLevelUpUI();
+}
+
+void AunrealGas241227_1Character::ApplyLevelUp(const FSTLevelUpOption& Option)
+{
+	if (Option.OptionType == ELevelUpType::ATTRIBUTE)
+	{
+		ApplyAttributeEffect(Option.AttributeType, Option.Value);
+	}
+	else if (Option.OptionType == ELevelUpType::SKILL)
+	{
+		UnlockSkill.Add(Option.SkillType);
+	}
+}
+
+void AunrealGas241227_1Character::ApplyAttributeEffect(EAttributeType Type, float Value)
+{
+	TSubclassOf<UGameplayEffect> GEClass = nullptr;
+	FString TagString;
+
+	switch (Type)
+	{
+	case EAttributeType::Damage:
+		GEClass = GE_Damage;
+		TagString = "GameplayCue.Damage";
+		break;
+
+	case EAttributeType::Health:
+		GEClass = GE_Health;
+		TagString = "GameplayCue.Health";
+		break;
+
+	case EAttributeType::Armor:
+		GEClass = GE_Armor;
+		TagString = "GameplayCue.Armor";
+		break;
+
+	case EAttributeType::AS:
+		GEClass = GE_AttackSpeed;
+		TagString = "GameplayCue.AttackSpeed";
+		break;
+
+	case EAttributeType::MS:
+		GEClass = GE_MoveSpeed;
+		TagString = "GameplayCue.MoveSpeed";
+		break;
+	}
+
+	if (!GEClass || TagString.IsEmpty()) return;
+
+	const FGameplayTag Tag = FGameplayTag::RequestGameplayTag(FName(*TagString));
+
+	if (!Tag.IsValid())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Invalid GameplayTag : %s"), *TagString);
+		return;
+	}
+
+	// GE 생성 및 적용
+	FGameplayEffectContextHandle Context = AbilitySystemComponent->MakeEffectContext();
+	FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(GEClass, 1.f, Context);
+
+	if (SpecHandle.IsValid())
+	{
+		SpecHandle.Data->SetSetByCallerMagnitude(Tag, Value);
+		AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+
+		UE_LOG(LogTemp, Log, TEXT("Applied %s +%.1f"), *Tag.ToString(), Value);
+	}
+}
+
+void AunrealGas241227_1Character::GenerateRandomLevelUpOption(int32 Count)
+{
+	CurrentOption.Empty();
+
+	if (!LevelUpDataOption) return;
+
+	TArray<FSTLevelUpOption*> RawOption;
+	LevelUpDataOption->GetAllRows<FSTLevelUpOption>(TEXT("LevelUpOption"), RawOption);
+
+	if (RawOption.Num() == 0) return;
+
+	TArray<FSTLevelUpOption*> FilterOption;
+
+	// 열린스킬들 제거 
+	for (FSTLevelUpOption* Option : RawOption)
+	{
+		if (Option->OptionType == ELevelUpType::SKILL)
+		{
+			if (UnlockSkill.Contains(Option->SkillType))
+			{
+				continue;
+			}
+		}
+
+		FilterOption.Add(Option);
+	}
+	
+	for (int32 i = FilterOption.Num() - 1; i > 0; --i)
+	{
+		int32 j = FMath::RandRange(0, i);
+		FilterOption.Swap(i, j);
+	}
+
+	int32 MaxCount = FMath::Min(Count, FilterOption.Num());
+	for (int32 i = 0; i < MaxCount; ++i)
+	{
+		CurrentOption.Add(*FilterOption[i]);
+	}
+}
+
+void AunrealGas241227_1Character::ShowLevelUpUI()
+{
+	GenerateRandomLevelUpOption(3);
+
+	APlayerController* PC = GetController<APlayerController>();
+
+
+	if (!PC || !LevelUpWidgetClass || LevelUpWidget) return;
+	
+	LevelUpWidget = CreateWidget<UCUserWidget_LevelUpInfo>(PC, LevelUpWidgetClass);
+	if (!LevelUpWidget) return;
+
+	LevelUpWidget->AddToViewport();
+
+	PC->SetPause(true);
+
+	FInputModeUIOnly InputMode;
+	InputMode.SetWidgetToFocus(LevelUpWidget->TakeWidget());
+	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	PC->SetInputMode(InputMode);
+
+	PC->bShowMouseCursor = true;
+
+	LevelUpWidget->InitLevelUpOption(CurrentOption);
+}
+
+void AunrealGas241227_1Character::CloseLevelUpUI()
+{
+	if (LevelUpWidget)
+	{
+		LevelUpWidget->RemoveFromParent();
+		LevelUpWidget = nullptr;
+		UE_LOG(LogTemp, Warning, TEXT("LevelUpWidget Initialization"));
+	}
 }

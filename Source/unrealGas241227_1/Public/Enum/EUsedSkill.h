@@ -5,8 +5,8 @@
 UENUM(BlueprintType)
 enum class EUsedSkill : uint8
 {
-    LMB     UMETA(DisplayName = "Left Mouse Button"),
-    RMB     UMETA(DisplayName = "Right Mouse Button"),
+    LMB     UMETA(DisplayName = "LMB Skill"),
+    RMB     UMETA(DisplayName = "RMB Skill"),
     Q       UMETA(DisplayName = "Q Skill"),
     R       UMETA(DisplayName = "R Skill")
 };
