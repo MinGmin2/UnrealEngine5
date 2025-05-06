@@ -308,12 +308,18 @@ protected:
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite , Category = "Item")
 	TArray<FSTItemData> Inventory;
 
-	// EquipItem
+	// EquipItem , Unequip Item
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 	FSTItemData ItemData;
 
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+	TMap<EItemType, FActiveGameplayEffectHandle> ActiveEffectHandle;
+
 	UFUNCTION(BlueprintCallable)
 	void EquipItem(const FSTItemData& Item);
+
+	UFUNCTION(BlueprintCallable)
+	void UnequipItem(EItemType ItemType);
 
 	UFUNCTION(BlueprintCallable)
 	void EquipItemValue(EItemType ItemType , float Value);

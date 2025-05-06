@@ -44,3 +44,8 @@ struct FSTItemData : public FTableRowBase
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 	float Price;
 };
+
+FORCEINLINE bool operator==(const FSTItemData& A, const FSTItemData& B)
+{
+	return A.ItemID == B.ItemID;
+}

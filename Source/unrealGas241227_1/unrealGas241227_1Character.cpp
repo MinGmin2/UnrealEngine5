@@ -724,16 +724,40 @@ void AunrealGas241227_1Character::EquipItem(const FSTItemData& Item)
 
 	if (!GI) return;
 
-	if (GI->EquippedItems.Contains(Item.ItemType))
+	/*if (GI->EquippedItems.Contains(Item.ItemType))
 	{
 		GI->EquippedItems.Remove(Item.ItemType);
-	}
+	}*/
 
 	GI->EquippedItems.Add(Item.ItemType, Item);
+
+	GI->Inventory.Remove(Item);
 
 	UE_LOG(LogTemp, Log, TEXT("%s Equipped"), *Item.ItemName.ToString());
 
 	EquipItemValue(Item.ItemType , Item.ItemAttributeValue);
+}
+
+void AunrealGas241227_1Character::UnequipItem(EItemType ItemType)
+{
+	UCGameInstance* GI = Cast<UCGameInstance>(UGameplayStatics::GetGameInstance(this));
+
+	if (!GI) return;
+
+	FSTItemData UnequipItem = GI->EquippedItems[ItemType];
+
+	GI->Inventory.Add(UnequipItem);
+
+	GI->EquippedItems.Remove(ItemType);
+
+	if (ActiveEffectHandle.Contains(ItemType))
+	{
+		AbilitySystemComponent->RemoveActiveGameplayEffect(ActiveEffectHandle[ItemType]);
+
+		ActiveEffectHandle.Remove(ItemType);
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Unequipped"));
 }
 
 void AunrealGas241227_1Character::EquipItemValue(EItemType ItemType , float Value)
@@ -786,12 +810,13 @@ void AunrealGas241227_1Character::EquipItemValue(EItemType ItemType , float Valu
 	// GE 생성 및 적용
 	FGameplayEffectContextHandle Context = AbilitySystemComponent->MakeEffectContext();
 	FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(GEClass, 1.f, Context);
-
+	
 	if (SpecHandle.IsValid())
 	{
 		SpecHandle.Data->SetSetByCallerMagnitude(Tag, Value);
-		AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
-
+		FActiveGameplayEffectHandle ActiveHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+		ActiveEffectHandle.Add(ItemType, ActiveHandle);
+		
 		UE_LOG(LogTemp, Log, TEXT("Applied %s +%.1f"), *Tag.ToString(), Value);
 	}
 }
