@@ -18,10 +18,10 @@
 
 > + #### 플레이어 개요
 >   기본적으로 2종류의 캐릭터 원거리 , 근거리
->   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Character.md)
+>   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Player/%ED%94%8C%EB%A0%88%EC%9D%B4%EC%96%B4.md)
 > + #### 플레이어 상호작용
 >   몬스터를 죽이고 드랍된 아이템을 장착 , 해제 , 상점에서 구매
->   + [상세보기](https://github.com/HanYooTae/MonsterQuest/blob/main/Outline/Item/%EC%95%84%EC%9D%B4%ED%85%9C%20%EA%B5%AC%EC%84%B1.md)
+>   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Player/%ED%94%8C%EB%A0%88%EC%9D%B4%EC%96%B4%20%EC%83%81%ED%98%B8%EC%9E%91%EC%9A%A9.md)
 
 > + #### 아이템 개요
 >   아이템의 장착은 DataAsset으로 관리하고 있으며, 해당 DataAsset은 아이템의 정보, 장착, 공격 등의 정보를 관리한다.
