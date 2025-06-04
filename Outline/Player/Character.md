@@ -24,6 +24,12 @@ Attribute 목록
 ```
 
 ```
+CharacterSelectUI
+  - 캐릭터를 선택할 수 있는 UI ( 원거리 , 근거리 선택 가능 )
+```
+![image](https://github.com/user-attachments/assets/31c9931c-bdc5-4ed8-b96b-e22ad7617a39)
+
+```
 PlayerUI
   - Attribute값으로 PlayerUI의 체력 , 마나등을 표시
 ```
