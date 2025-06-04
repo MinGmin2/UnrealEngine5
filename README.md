@@ -18,7 +18,7 @@
 
 > + #### 플레이어 개요
 >   기본적으로 2종류의 캐릭터 원거리 , 근거리
->   + [상세보기](https://github.com/HanYooTae/MonsterQuest/blob/main/Outline/Item/%EC%95%84%EC%9D%B4%ED%85%9C%20%EA%B0%9C%EC%9A%94.md)
+>   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Character.md)
 > + #### 플레이어 상호작용
 >   몬스터를 죽이고 드랍된 아이템을 장착 , 해제 , 상점에서 구매
 >   + [상세보기](https://github.com/HanYooTae/MonsterQuest/blob/main/Outline/Item/%EC%95%84%EC%9D%B4%ED%85%9C%20%EA%B5%AC%EC%84%B1.md)
