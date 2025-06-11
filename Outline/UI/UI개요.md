@@ -1,4 +1,4 @@
-## 인벤토리 개요
+## UI 개요
 
 #### 인벤토리는 총 3개의 Widget으로 구성되어있으며, 아이템에 마우스를 올릴 경우 ( Hover ) HoverInfo 위젯이 추가로 존재한다.
 
@@ -7,7 +7,6 @@
 2. SingleGearSlot
 3. Equipment
 ```
-
 ![image](https://github.com/user-attachments/assets/e07048c2-9c36-49ff-892a-aa6c0d488ce9)
 ![image](https://github.com/user-attachments/assets/f03478c2-d29f-4b35-a317-684d256ea6a5)
 ![image](https://github.com/user-attachments/assets/ebecdf7f-c6ce-4c94-ad73-a6e1dbcbc6b2)
