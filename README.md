@@ -35,7 +35,7 @@
 
 ### 몬스터 개요
 > + #### 몬스터 개요
->   아이템은 DataTable로 관리
+>   AI Controller와 Behavior Tree로 동작
 >   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Enemy/%EB%AA%AC%EC%8A%A4%ED%84%B0%20%EA%B0%9C%EC%9A%94.md)
 > + #### 아이템 구성
 >   아이템은 총 6가지의 종류로 구성
