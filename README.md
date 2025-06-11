@@ -20,7 +20,7 @@
 >   기본적으로 2종류의 캐릭터 원거리 , 근거리
 >   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Player/%ED%94%8C%EB%A0%88%EC%9D%B4%EC%96%B4.md)
 > + #### 플레이어 상호작용
->   몬스터를 죽이고 드랍된 아이템을 장착 , 해제 , 상점에서 구매
+>   몬스터를 처치하고 드랍된 아이템을 획득 , 아이템을 장착 , 해제 , 상점에서 구매
 >   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Player/%ED%94%8C%EB%A0%88%EC%9D%B4%EC%96%B4%20%EC%83%81%ED%98%B8%EC%9E%91%EC%9A%A9.md)
 
 
