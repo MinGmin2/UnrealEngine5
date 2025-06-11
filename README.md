@@ -8,7 +8,7 @@
 ](유튜브 찍어서 올리자)
 
 ## 개발 기간
-- 2025/03/01 ~ 2025/06/01
+- 2025/02/01 ~ 2025/06/01
 
 
 ## 프로젝트 목차
@@ -28,6 +28,15 @@
 > + #### 아이템 개요
 >   아이템은 DataTable로 관리
 >   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Item/%EC%95%84%EC%9D%B4%ED%85%9C%20%EA%B0%9C%EC%9A%94.md)
+> + #### 아이템 구성
+>   아이템은 총 6가지의 종류로 구성
+>   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Item/%EC%95%84%EC%9D%B4%ED%85%9C%20%EA%B5%AC%EC%84%B1.md)
+
+
+### 몬스터 개요
+> + #### 몬스터 개요
+>   아이템은 DataTable로 관리
+>   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Enemy/%EB%AA%AC%EC%8A%A4%ED%84%B0%20%EA%B0%9C%EC%9A%94.md)
 > + #### 아이템 구성
 >   아이템은 총 6가지의 종류로 구성
 >   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Item/%EC%95%84%EC%9D%B4%ED%85%9C%20%EA%B5%AC%EC%84%B1.md)
