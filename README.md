@@ -33,10 +33,10 @@
 >   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Item/%EC%95%84%EC%9D%B4%ED%85%9C%20%EA%B5%AC%EC%84%B1.md)
 
 
-### 몬스터 개요
+### 몬스터
 > + #### 몬스터 개요
 >   AI Controller와 Behavior Tree로 동작
 >   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Enemy/%EB%AA%AC%EC%8A%A4%ED%84%B0%20%EA%B0%9C%EC%9A%94.md)
-> + #### 아이템 구성
->   아이템은 총 6가지의 종류로 구성
->   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Item/%EC%95%84%EC%9D%B4%ED%85%9C%20%EA%B5%AC%EC%84%B1.md)
+> + #### 몬스터 구성
+>   몬스터는 총 5가지의 종류로 구성
+>   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Enemy/%EB%AA%AC%EC%8A%A4%ED%84%B0%20%EA%B5%AC%EC%84%B1.md)
