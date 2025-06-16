@@ -26,4 +26,8 @@ SingleGear로 생성된 아이템을 클릭 시 필요레벨이 된다면 장착
 
 ![image](https://github.com/user-attachments/assets/13690762-e292-4ec7-93ce-97bb45b21269)
 
-
+#### DamageText
+```
+적에게 가한 데미지를 나타내는 Widget
+```
+![image](https://github.com/user-attachments/assets/f130c758-ce19-44e2-bc65-cf9ffa0086da)
