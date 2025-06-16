@@ -22,7 +22,7 @@ SingleGear로 생성된 아이템을 클릭 시 필요레벨이 된다면 장착
 ```
 아이템의 등급 ( Rarity ) , 종류 , 필요레벨 , 아이템에 해당하는 능력치를 나타낸다.
 ```
-+ [아이템 개요](https://github.com/HanYooTae/MonsterQuest/blob/main/Outline/Item/%EC%95%84%EC%9D%B4%ED%85%9C%20%EA%B0%9C%EC%9A%94.md)
++ [아이템 개요](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Item/%EC%95%84%EC%9D%B4%ED%85%9C%20%EA%B0%9C%EC%9A%94.md)
 
 ![image](https://github.com/user-attachments/assets/13690762-e292-4ec7-93ce-97bb45b21269)
 
