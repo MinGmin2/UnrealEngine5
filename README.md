@@ -47,5 +47,5 @@
 
 
 ### 포탈
-> + #### 포 개요
+> + #### 포탈 개요
 >   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Portal/%ED%8F%AC%ED%83%88%20%EA%B5%AC%EC%84%B1.md)
