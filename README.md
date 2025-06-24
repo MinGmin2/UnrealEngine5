@@ -15,7 +15,6 @@
 
 
 ### 플레이어
-
 > + #### 플레이어 개요
 >   기본적으로 2종류의 캐릭터 원거리 , 근거리
 >   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Player/%ED%94%8C%EB%A0%88%EC%9D%B4%EC%96%B4.md)
@@ -45,3 +44,8 @@
 ### UI
 > + #### UI 개요
 >   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Enemy/%EB%AA%AC%EC%8A%A4%ED%84%B0%20%EA%B0%9C%EC%9A%94.md)
+
+
+### 포탈
+> + #### 포 개요
+>   + [상세보기](https://github.com/MinGmin2/UnrealEngine5/blob/main/Outline/Portal/%ED%8F%AC%ED%83%88%20%EA%B5%AC%EC%84%B1.md)
