@@ -5,7 +5,7 @@
 ## 프로젝트 소개영상
 
 [![Image](https://github.com/user-attachments/assets/93cca0c8-0a6a-4cb2-8750-5fd7f10eab31)
-](https://www.youtube.com/@%EB%B0%8D%EB%AF%BC-w5m)
+](https://www.youtube.com/watch?v=KxQlVNDmreQ&t=11s)
 
 ## 개발 기간
 - 2025/02/01 ~ 2025/06/01
